@@ -1,0 +1,64 @@
+graph vx {
+ "leaf-1" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "leaf-2" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "leaf-3" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "leaf-4" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "spine-1" [function="spine" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "spine-2" [function="spine" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "edge-1" [function="edge" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "edge-2" [function="edge" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_switch.sh" ]
+ "server-1" [function="host" os="yk0/ubuntu-xenial" memory="512" config="./helper_scripts/config_server.sh" ]
+ "server-2" [function="host" os="yk0/ubuntu-xenial" memory="512" config="./helper_scripts/config_server.sh" ]
+ "server-3" [function="host" os="yk0/ubuntu-xenial" memory="512" config="./helper_scripts/config_server.sh" ]
+ "server-4" [function="host" os="yk0/ubuntu-xenial" memory="512" config="./helper_scripts/config_server.sh" ]
+ "mgmt-1" [function="mgmt" vagrant="eth0" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_mgmt_switch.sh" ]
+ "mgmt-server" [function="mgmt-server" vagrant="eth0" os="CumulusCommunity/vx_oob_server" version="1.0.3" memory="1024" config="./helper_scripts/config_mgmt_server.sh" ]
+
+ "leaf-1":"swp51" -- "spine-1":"swp1"
+ "leaf-2":"swp51" -- "spine-1":"swp2"
+ "leaf-3":"swp51" -- "spine-1":"swp3"
+ "leaf-4":"swp51" -- "spine-1":"swp4"
+ "leaf-1":"swp52" -- "spine-2":"swp1"
+ "leaf-2":"swp52" -- "spine-2":"swp2"
+ "leaf-3":"swp52" -- "spine-2":"swp3"
+ "leaf-4":"swp52" -- "spine-2":"swp4"
+
+ "leaf-1":"swp53" -- "leaf-2":"swp53"
+ "leaf-1":"swp54" -- "leaf-2":"swp54"
+ "leaf-3":"swp53" -- "leaf-4":"swp53"
+ "leaf-3":"swp54" -- "leaf-4":"swp54"
+
+ "spine-1":"swp53" -- "spine-2":"swp53"
+ "spine-1":"swp54" -- "spine-2":"swp54"
+ "edge-1":"swp53" -- "edge-2":"swp53"
+ "edge-1":"swp54" -- "edge-2":"swp54"
+
+ "server-1":"eth1" -- "leaf-1":"swp1" [left_mac="00:03:00:11:11:01"]
+ "server-1":"eth2" -- "leaf-2":"swp1" [left_mac="00:03:00:11:11:02"]
+ "server-2":"eth1" -- "leaf-1":"swp2" [left_mac="00:03:00:22:22:01"]
+ "server-2":"eth2" -- "leaf-2":"swp2" [left_mac="00:03:00:22:22:02"]
+ "server-3":"eth1" -- "leaf-3":"swp1" [left_mac="00:03:00:33:33:01"]
+ "server-3":"eth2" -- "leaf-4":"swp1" [left_mac="00:03:00:33:33:02"]
+ "server-4":"eth1" -- "leaf-3":"swp2" [left_mac="00:03:00:44:44:01"]
+ "server-4":"eth2" -- "leaf-4":"swp2" [left_mac="00:03:00:44:44:02"]
+
+ "edge-1":"swp51" -- "spine-1":"swp51"
+ "edge-1":"swp52" -- "spine-2":"swp51"
+ "edge-2":"swp51" -- "spine-1":"swp52"
+ "edge-2":"swp52" -- "spine-2":"swp52"
+
+
+ "mgmt-server":"eth1" -- "mgmt-1":"swp9" [right_mac="a0:00:00:00:00:61"]
+ "server-1":"eth0" -- "mgmt-1":"swp10" [left_mac="a0:00:00:00:00:31"]
+ "server-2":"eth0" -- "mgmt-1":"swp11" [left_mac="a0:00:00:00:00:32"]
+ "server-3":"eth0" -- "mgmt-1":"swp12" [left_mac="a0:00:00:00:00:33"]
+ "server-4":"eth0" -- "mgmt-1":"swp13" [left_mac="a0:00:00:00:00:34"]
+ "leaf-1":"eth0" -- "mgmt-1":"swp1" [left_mac="a0:00:00:00:00:11"]
+ "leaf-2":"eth0" -- "mgmt-1":"swp2" [left_mac="a0:00:00:00:00:12"]
+ "leaf-3":"eth0" -- "mgmt-1":"swp3" [left_mac="a0:00:00:00:00:13"]
+ "leaf-4":"eth0" -- "mgmt-1":"swp4" [left_mac="a0:00:00:00:00:14"]
+ "spine-1":"eth0" -- "mgmt-1":"swp7" [left_mac="a0:00:00:00:00:21"]
+ "spine-2":"eth0" -- "mgmt-1":"swp8" [left_mac="a0:00:00:00:00:22"]
+ "edge-1":"eth0" -- "mgmt-1":"swp5" [left_mac="a0:00:00:00:00:41"]
+ "edge-2":"eth0" -- "mgmt-1":"swp6" [left_mac="a0:00:00:00:00:42"]
+}
