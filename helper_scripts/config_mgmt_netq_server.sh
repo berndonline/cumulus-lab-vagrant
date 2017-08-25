@@ -51,6 +51,9 @@ interface listen eth1
 EOT
 
 echo " ### Pushing Ansible Hosts File ###"
+apt-get update
+apt-get install -y ansible git
+
 mkdir -p /etc/ansible
 cat << EOT > /etc/ansible/hosts
 [mgmt]
@@ -207,6 +210,11 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 EOT
 
+
+echo " ###Install Apache2 ###"
+apt-get install -y apache2
+
+
 echo " ###Creating SSH keys for cumulus user ###"
 mkdir -p /home/cumulus/.ssh
 #/usr/bin/ssh-keygen -b 2048 -t rsa -f /home/cumulus/.ssh/id_rsa -q -N ""
@@ -250,6 +258,7 @@ cp /home/cumulus/.ssh/id_rsa.pub /var/www/html/authorized_keys
 chmod 700 -R /home/cumulus/.ssh
 chown cumulus:cumulus -R /home/cumulus/.ssh
 
+echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
 
 echo " ### Pushing ZTP Script ###"
 cat << EOT > /var/www/html/ztp_oob.sh
@@ -277,6 +286,10 @@ echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
 # Setup NTP
 sed -i '/^server [1-3]/d' /etc/ntp.conf
 sed -i 's/^server 0.cumulusnetworks.pool.ntp.org iburst/server 192.168.0.254 iburst/g' /etc/ntp.conf
+
+# Configure NetQ
+netq add server 192.168.100.254
+netq agent restart
 
 ping 8.8.8.8 -c2
 if [ "\$?" == "0" ]; then
