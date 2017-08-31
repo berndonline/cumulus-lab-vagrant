@@ -46,7 +46,7 @@ filegen loopstats file loopstats type day enable
 filegen peerstats file peerstats type day enable
 filegen clockstats file clockstats type day enable
 
-server 192.168.100.254 iburst
+server 192.168.100.200 iburst
 
 # By default, exchange time with everybody, but don't allow configuration.
 restrict -4 default kod notrap nomodify nopeer noquery

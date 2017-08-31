@@ -1,8 +1,8 @@
 # Created by Topology-Converter v4.6.3
 #    Template Revision: v4.6.3
 #    https://github.com/cumulusnetworks/topology_converter
-#    using topology data from: topology-netq.dot
-#    built with the following args: topology_converter.py topology-netq.dot -p libvirt
+#    using topology data from: topology-kvm.dot
+#    built with the following args: topology_converter.py topology-kvm.dot -p libvirt
 #
 #    NOTE: in order to use this Vagrantfile you will need:
 #       -Vagrant(v1.8.6+) installed: http://www.vagrantup.com/downloads
@@ -209,7 +209,7 @@ Vagrant.configure("2") do |config|
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -384,7 +384,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -539,7 +539,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -686,7 +686,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -833,7 +833,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -980,7 +980,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -1090,7 +1090,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_server.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_server.sh"
 
 
     # Install Rules for the interface re-map
@@ -1184,7 +1184,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_server.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_server.sh"
 
 
     # Install Rules for the interface re-map
@@ -1278,7 +1278,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_server.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_server.sh"
 
 
     # Install Rules for the interface re-map
@@ -1372,7 +1372,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_server.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_server.sh"
 
 
     # Install Rules for the interface re-map
@@ -1563,7 +1563,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_mgmt_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_mgmt_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -1714,7 +1714,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -1762,7 +1762,8 @@ end
   ##### DEFINE VM for mgmt-server #####
   config.vm.define "mgmt-server" do |device|
     device.vm.hostname = "mgmt-server" 
-    device.vm.box = "cumulus/ts"
+    device.vm.box = "CumulusCommunity/vx_oob_server"
+    device.vm.box_version = "1.0.3"
 
     device.vm.provider :libvirt do |v|
       v.memory = 1024
@@ -1792,7 +1793,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_mgmt_netq_server.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_mgmt_server.sh"
 
 
     # Install Rules for the interface re-map
@@ -1895,7 +1896,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_netq_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
 
 
     # Install Rules for the interface re-map
