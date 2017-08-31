@@ -18,7 +18,7 @@ iface eth0 inet dhcp
 auto eth1
 iface eth1
     alias Faces the Internal Management Network
-    address 192.168.100.254/24
+    address 192.168.100.200/24
 
 EOT
 
@@ -123,14 +123,16 @@ shared-network LOCAL-NET{
 
 subnet 192.168.100.0 netmask 255.255.255.0 {
   range 192.168.100.201 192.168.100.250;
-  option domain-name-servers 192.168.100.254;
+  option domain-name-servers 192.168.100.200;
   option domain-name "simulation";
   default-lease-time 172800;  #2 days
   max-lease-time 345600;      #4 days
-  option www-server 192.168.100.254;
-  option default-url = "http://192.168.100.254/onie-installer";
-  option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";
-  option ntp-servers 192.168.100.254;
+  option www-server 192.168.100.200;
+  option default-url = "http://192.168.100.200/onie-installer";
+  option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";
+  option ntp-servers 192.168.100.200;
+  option routers 192.168.100.254;
+  option subnet-mask 255.255.255.0;
 }
 
 }
@@ -143,29 +145,29 @@ echo " ### Push DHCP Host Config ###"
 cat << EOT > /etc/dhcp/dhcpd.hosts
 group {
 
-  option domain-name-servers 192.168.100.254;
+  option domain-name-servers 192.168.100.200;
   option domain-name "simulation";
   option routers 192.168.100.254;
-  option www-server 192.168.100.254;
-  option default-url = "http://192.168.0.254/onie-installer";
+  option www-server 192.168.100.200;
+  option default-url = "http://192.168.0.200/onie-installer";
 
- host mgmt-1 {hardware ethernet a0:00:00:00:00:61; fixed-address 192.168.100.9; option host-name "mgmt-1"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host mgmt-1 {hardware ethernet a0:00:00:00:00:61; fixed-address 192.168.100.9; option host-name "mgmt-1"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host edge-2 {hardware ethernet a0:00:00:00:00:42; fixed-address 192.168.100.4; option host-name "edge-2"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host edge-2 {hardware ethernet a0:00:00:00:00:42; fixed-address 192.168.100.4; option host-name "edge-2"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host edge-1 {hardware ethernet a0:00:00:00:00:41; fixed-address 192.168.100.3; option host-name "edge-1"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host edge-1 {hardware ethernet a0:00:00:00:00:41; fixed-address 192.168.100.3; option host-name "edge-1"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host spine-2 {hardware ethernet a0:00:00:00:00:22; fixed-address 192.168.100.2; option host-name "spine-2"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host spine-2 {hardware ethernet a0:00:00:00:00:22; fixed-address 192.168.100.2; option host-name "spine-2"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host spine-1 {hardware ethernet a0:00:00:00:00:21; fixed-address 192.168.100.1; option host-name "spine-1"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host spine-1 {hardware ethernet a0:00:00:00:00:21; fixed-address 192.168.100.1; option host-name "spine-1"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host leaf-4 {hardware ethernet a0:00:00:00:00:14; fixed-address 192.168.100.8; option host-name "leaf-4"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host leaf-4 {hardware ethernet a0:00:00:00:00:14; fixed-address 192.168.100.8; option host-name "leaf-4"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host leaf-2 {hardware ethernet a0:00:00:00:00:12; fixed-address 192.168.100.6; option host-name "leaf-2"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host leaf-2 {hardware ethernet a0:00:00:00:00:12; fixed-address 192.168.100.6; option host-name "leaf-2"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host leaf-3 {hardware ethernet a0:00:00:00:00:13; fixed-address 192.168.100.7; option host-name "leaf-3"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host leaf-3 {hardware ethernet a0:00:00:00:00:13; fixed-address 192.168.100.7; option host-name "leaf-3"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host leaf-1 {hardware ethernet a0:00:00:00:00:11; fixed-address 192.168.100.5; option host-name "leaf-1"; option cumulus-provision-url "http://192.168.100.254/ztp_oob.sh";  } 
+ host leaf-1 {hardware ethernet a0:00:00:00:00:11; fixed-address 192.168.100.5; option host-name "leaf-1"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
  host server-1 {hardware ethernet a0:00:00:00:00:31; fixed-address 192.168.100.10; option host-name "server01"; } 
 
@@ -188,7 +190,7 @@ cat << EOT > /etc/hosts
 127.0.0.1 localhost 
 127.0.1.1 mgmt-server
 
-192.168.100.254 oob-mgmt-server 
+192.168.100.200 mgmt-server 
 
 192.168.100.9 mgmt-1
 192.168.100.4 edge-2
@@ -275,7 +277,7 @@ trap error ERR
 
 # Setup SSH key authentication for Ansible
 mkdir -p /home/cumulus/.ssh
-#wget -O /home/cumulus/.ssh/authorized_keys http://192.168.0.254/authorized_keys
+#wget -O /home/cumulus/.ssh/authorized_keys http://192.168.0.200/authorized_keys
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzH+R+UhjVicUtI0daNUcedYhfvgT1dbZXgY33Ibm4MOo+X84Iwuzirm3QFnYf2O3uyZjNyrA6fj9qFE7Ekul4bD6PCstQupXPwfPMjns2M7tkHsKnLYjNxWNql/rCUxoH2B6nPyztcRCass3lIc2clfXkCY9Jtf7kgC2e/dmchywPV5PrFqtlHgZUnyoPyWBH7OjPLVxYwtCJn96sFkrjaG9QDOeoeiNvcGlk4DJp/g9L4f2AaEq69x8+gBTFUqAFsD8ecO941cM8sa1167rsRPx7SK3270Ji5EUF3lZsgpaiIgMhtIB/7QNTkN9ZjQBazxxlNVN6WthF8okb7OSt" >> /home/cumulus/.ssh/authorized_keys
 chmod 700 -R /home/cumulus/.ssh
 chown cumulus:cumulus -R /home/cumulus/.ssh
@@ -285,10 +287,10 @@ echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
 
 # Setup NTP
 sed -i '/^server [1-3]/d' /etc/ntp.conf
-sed -i 's/^server 0.cumulusnetworks.pool.ntp.org iburst/server 192.168.0.254 iburst/g' /etc/ntp.conf
+sed -i 's/^server 0.cumulusnetworks.pool.ntp.org iburst/server 192.168.0.200 iburst/g' /etc/ntp.conf
 
 # Configure NetQ
-netq add server 192.168.100.254
+netq add server 192.168.100.200
 netq agent restart
 
 ping 8.8.8.8 -c2
