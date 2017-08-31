@@ -1,8 +1,8 @@
 # Created by Topology-Converter v4.6.3
 #    Template Revision: v4.6.3
 #    https://github.com/cumulusnetworks/topology_converter
-#    using topology data from: topology-kvm.dot
-#    built with the following args: topology_converter.py topology-kvm.dot -p libvirt
+#    using topology data from: topology-test.dot
+#    built with the following args: topology_converter.py topology-test.dot -p libvirt --ansible-hostfile
 #
 #    NOTE: in order to use this Vagrantfile you will need:
 #       -Vagrant(v1.8.6+) installed: http://www.vagrantup.com/downloads
@@ -93,6 +93,21 @@ Vagrant.configure("2") do |config|
   end
 
 
+  #Generating Ansible Host File at following location:
+  #    ./.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "./helper_scripts/empty_playbook.yml"
+# ANSIBLE GROUPS CONFIGURATION
+    ansible.groups = {
+      "leaf" => ["leaf-1","leaf-3","leaf-2","leaf-4",],
+      "spine" => ["spine-1","spine-2",],
+      "mgmt-server" => ["mgmt-server",],
+      "host" => ["server-2","server-3","server-1","server-4",],
+      "edge" => ["edge-2","edge-1",],
+      "mgmt" => ["mgmt-1",],
+      "network:children" => ["leaf","spine",]
+    }
+  end
 
 
   ##### DEFINE VM for spine-1 #####
@@ -209,7 +224,7 @@ Vagrant.configure("2") do |config|
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -258,8 +273,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:2b", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -384,7 +399,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -433,8 +448,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:2c", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -539,7 +554,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -580,8 +595,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:05", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -686,7 +701,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -727,8 +742,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:1d", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -833,7 +848,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -874,8 +889,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:06", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -980,7 +995,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -1021,8 +1036,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:1e", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -1714,7 +1729,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -1747,8 +1762,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:34", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule
@@ -1896,7 +1911,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
@@ -1929,8 +1944,8 @@ echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:33", NAME=
 udev_rule
      
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
-echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
-echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
+echo "  INFO: Adding UDEV Rule: Vagrant interface = eth1"
+echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 echo "#### UDEV Rules (/etc/udev/rules.d/70-persistent-net.rules) ####"
 cat /etc/udev/rules.d/70-persistent-net.rules
 vagrant_interface_rule

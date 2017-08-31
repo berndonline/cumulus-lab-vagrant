@@ -123,16 +123,14 @@ shared-network LOCAL-NET{
 
 subnet 192.168.100.0 netmask 255.255.255.0 {
   range 192.168.100.201 192.168.100.250;
-  option domain-name-servers 192.168.100.200;
-  option domain-name "simulation";
+  # option domain-name-servers 192.168.100.200;
+  option domain-name "lab";
   default-lease-time 172800;  #2 days
   max-lease-time 345600;      #4 days
   option www-server 192.168.100.200;
   option default-url = "http://192.168.100.200/onie-installer";
   option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";
   option ntp-servers 192.168.100.200;
-  option routers 192.168.100.254;
-  option subnet-mask 255.255.255.0;
 }
 
 }
@@ -145,9 +143,8 @@ echo " ### Push DHCP Host Config ###"
 cat << EOT > /etc/dhcp/dhcpd.hosts
 group {
 
-  option domain-name-servers 192.168.100.200;
-  option domain-name "simulation";
-  option routers 192.168.100.254;
+  # option domain-name-servers 192.168.100.200;
+  option domain-name "lab";
   option www-server 192.168.100.200;
   option default-url = "http://192.168.0.200/onie-installer";
 
