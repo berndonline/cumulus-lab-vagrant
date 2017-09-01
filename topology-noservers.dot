@@ -7,7 +7,7 @@ graph vx {
  "spine-2" [function="spine" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
  "edge-1" [function="edge" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
  "edge-2" [function="edge" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "mgmt-1" [function="mgmt" vagrant="eth0" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_mgmt_switch.sh" ]
+ "mgmt-1" [function="mgmt" vagrant="eth0" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_mgmt_vagrant_switch.sh" ]
 
  "leaf-1":"swp51" -- "spine-1":"swp1"
  "leaf-2":"swp51" -- "spine-1":"swp2"

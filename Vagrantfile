@@ -1038,7 +1038,7 @@ end
     
     # Run the Config specified in the Node Attributes
     device.vm.provision :shell , privileged: false, :inline => 'echo "$(whoami)" > /tmp/normal_user'
-    device.vm.provision :shell , path: "./helper_scripts/config_mgmt_switch.sh"
+    device.vm.provision :shell , path: "./helper_scripts/config_mgmt_vagrant_switch.sh"
 
 
     # Install Rules for the interface re-map
