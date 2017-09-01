@@ -1,0 +1,3 @@
+[submodule "cumulus-lab-provision"]
+	path = cumulus-lab-provision
+	url = https://github.com/berndonline/cumulus-lab-provision.git
