@@ -1,0 +1,4 @@
+[submodule "cumulus-lab-provision"]
+	path = cumulus-lab-provision
+	url = git@github.com:berndonline/cumulus-lab-provision.git
+	branch = master
