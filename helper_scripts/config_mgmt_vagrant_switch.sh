@@ -12,15 +12,11 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet dhcp
     alias Interface used by Vagrant
 
-auto bridge
-iface bridge
-    alias Untagged Bridge
-    bridge-ports swp1 swp2 swp3 swp4 swp5 swp6 swp7 swp8 
-    hwaddress a0:00:00:00:00:61
-    address 192.168.100.9/24
-    
 EOT
 
 echo " ###Creating SSH keys for cumulus user ###"
