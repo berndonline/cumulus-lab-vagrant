@@ -1,13 +1,15 @@
 graph vx {
- "leaf-1" [function="leaf" vagrant="eth1" as="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "leaf-2" [function="leaf" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "leaf-3" [function="leaf" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "leaf-4" [function="leaf" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "spine-1" [function="spine" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "spine-2" [function="spine" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "edge-1" [function="edge" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "edge-2" [function="edge" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_vagrant_switch.sh" ]
- "mgmt-1" [function="mgmt" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_mgmt_vagrant_switch.sh" ]
+ "leaf-1" [function="leaf" vagrant="eth1" as="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "leaf-2" [function="leaf" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "leaf-3" [function="leaf" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "leaf-4" [function="leaf" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "spine-1" [function="spine" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "spine-2" [function="spine" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "edge-1" [function="edge" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "edge-2" [function="edge" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_production_switch.sh" ]
+ "mgmt-1" [function="mgmt" vagrant="eth1" os="CumulusCommunity/cumulus-vx" version="3.3.2" memory="512" config="./helper_scripts/config_mgmt_production_switch.sh" ]
+ "mgmt-server" [function="mgmt-server" vagrant="eth0" os="cumulus/ts" memory="1024" config="./helper_scripts/config_mgmt_production_server.sh" ]
+
 
  "leaf-1":"swp51" -- "spine-1":"swp1"
  "leaf-2":"swp51" -- "spine-1":"swp2"
@@ -42,4 +44,5 @@ graph vx {
  "spine-2":"eth0" -- "mgmt-1":"swp8" [left_mac="a0:00:00:00:00:22"]
  "edge-1":"eth0" -- "mgmt-1":"swp5" [left_mac="a0:00:00:00:00:41"]
  "edge-2":"eth0" -- "mgmt-1":"swp6" [left_mac="a0:00:00:00:00:42"]
+ "mgmt-server":"eth1" -- "mgmt-1":"swp9" [right_mac="a0:00:00:00:00:61"]
 }

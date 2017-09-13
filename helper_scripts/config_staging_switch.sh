@@ -14,9 +14,14 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet dhcp
 
+auto vagrant
+iface vagrant
+    vrf-table auto
+ 
 auto eth1
 iface eth1 inet dhcp
     alias Interface used by Vagrant
+    vrf vagrant
 
 EOT
 

@@ -1,11 +1,12 @@
 #!/bin/bash
 
 echo "#################################"
-echo "   Running config_mgmt_switch.sh"
+echo "  Running Switch Post Config (config_vagrant_switch.sh)"
 echo "#################################"
 sudo su
 
-# Config for Mgmt Switch
+
+# Config for Vagrant Interface
 cat <<EOT > /etc/network/interfaces
 auto lo
 iface lo inet loopback
@@ -39,7 +40,11 @@ chown cumulus:cumulus -R /home/cumulus/.ssh
 echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
 
 
-echo "#################################"
-echo "   Finished "
-echo "#################################"
+echo " ###Install NetQ agent ###"
+apt-get update
+apt-get install -y cumulus-netq
 
+
+echo "#################################"
+echo "   Finished"
+echo "#################################"

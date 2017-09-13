@@ -11,7 +11,7 @@ auto lo
 iface lo inet loopback
 
 auto eth0
-iface eth0 inet dhcp
+iface eth0
 
 auto vagrant
 iface vagrant
@@ -21,6 +21,13 @@ auto eth1
 iface eth1 inet dhcp
     alias Interface used by Vagrant
     vrf vagrant
+
+auto bridge
+iface bridge
+    alias Untagged Bridge
+    bridge-ports swp1 swp2 swp3 swp4 swp5 swp6 swp7 swp8 swp9 
+    hwaddress a0:00:00:00:00:61
+    address 192.168.100.9/24
 
 EOT
 
@@ -37,6 +44,10 @@ chmod 700 -R /home/cumulus/.ssh
 chown cumulus:cumulus -R /home/cumulus/.ssh
 
 echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
+
+echo " ###Install NetQ agent ###"
+apt-get update
+apt-get install -y cumulus-netq
 
 
 echo "#################################"
