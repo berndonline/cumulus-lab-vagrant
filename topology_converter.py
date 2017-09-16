@@ -67,7 +67,7 @@ parser.add_argument('--version', action='version', version="Topology Converter v
 args = parser.parse_args()
 
 #Parse Arguments
-network_functions=['oob-switch','internet','exit','superspine','spine','leaf','tor']
+network_functions=['oob-switch','internet','edge','superspine','spine','leaf','tor']
 function_group={}
 provider="virtualbox"
 generate_ansible_hostfile=False
