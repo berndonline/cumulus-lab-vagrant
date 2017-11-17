@@ -25,9 +25,9 @@ iface eth1 inet dhcp
 auto bridge
 iface bridge
     alias Untagged Bridge
-    bridge-ports swp1 swp2 swp3 swp4 swp5 swp6 swp7 swp8 swp9 
+    bridge-ports swp1 swp2 swp3 swp4 swp5 swp6 swp7 swp8 swp9 swp10 swp11 
     hwaddress a0:00:00:00:00:61
-    address 192.168.100.9/24
+    address 192.168.100.30/24
 
 EOT
 

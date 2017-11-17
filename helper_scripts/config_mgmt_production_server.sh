@@ -57,13 +57,15 @@ apt-get install -y ansible git
 mkdir -p /etc/ansible
 cat << EOT > /etc/ansible/hosts
 [mgmt]
-mgmt-1 ansible_host=192.168.100.9 ansible_user=cumulus
+mgmt-1 ansible_host=192.168.100.30 ansible_user=cumulus
 
 [edge]
 edge-2 ansible_host=192.168.100.4 ansible_user=cumulus
 edge-1 ansible_host=192.168.100.3 ansible_user=cumulus
 
 [leaf]
+leaf-6 ansible_host=192.168.100.10 ansible_user=cumulus
+leaf-5 ansible_host=192.168.100.9 ansible_user=cumulus
 leaf-4 ansible_host=192.168.100.8 ansible_user=cumulus
 leaf-2 ansible_host=192.168.100.6 ansible_user=cumulus
 leaf-3 ansible_host=192.168.100.7 ansible_user=cumulus
@@ -74,10 +76,12 @@ spine-2 ansible_host=192.168.100.2 ansible_user=cumulus
 spine-1 ansible_host=192.168.100.1 ansible_user=cumulus
 
 [host]
-server-1 ansible_host=192.168.100.10 ansible_user=cumulus
-server-3 ansible_host=192.168.100.12 ansible_user=cumulus
-server-2 ansible_host=192.168.100.11 ansible_user=cumulus
-server-4 ansible_host=192.168.100.13 ansible_user=cumulus
+server-1 ansible_host=192.168.100.21 ansible_user=cumulus
+server-3 ansible_host=192.168.100.23 ansible_user=cumulus
+server-2 ansible_host=192.168.100.22 ansible_user=cumulus
+server-4 ansible_host=192.168.100.24 ansible_user=cumulus
+server-5 ansible_host=192.168.100.25 ansible_user=cumulus
+server-6 ansible_host=192.168.100.26 ansible_user=cumulus
 EOT
 
 echo " ### Pushing DHCP File ###"
@@ -158,6 +162,10 @@ group {
 
  host spine-1 {hardware ethernet a0:00:00:00:00:21; fixed-address 192.168.100.1; option host-name "spine-1"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
+ host leaf-6 {hardware ethernet a0:00:00:00:00:16; fixed-address 192.168.100.10; option host-name "leaf-6"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  }
+
+ host leaf-5 {hardware ethernet a0:00:00:00:00:15; fixed-address 192.168.100.9; option host-name "leaf-5"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  }
+
  host leaf-4 {hardware ethernet a0:00:00:00:00:14; fixed-address 192.168.100.8; option host-name "leaf-4"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
  host leaf-2 {hardware ethernet a0:00:00:00:00:12; fixed-address 192.168.100.6; option host-name "leaf-2"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
@@ -166,14 +174,17 @@ group {
 
  host leaf-1 {hardware ethernet a0:00:00:00:00:11; fixed-address 192.168.100.5; option host-name "leaf-1"; option cumulus-provision-url "http://192.168.100.200/ztp_oob.sh";  } 
 
- host server-1 {hardware ethernet a0:00:00:00:00:31; fixed-address 192.168.100.10; option host-name "server01"; } 
+ host server-1 {hardware ethernet a0:00:00:00:00:31; fixed-address 192.168.100.21; option host-name "server-1"; } 
 
- host server-3 {hardware ethernet a0:00:00:00:00:33; fixed-address 192.168.100.12; option host-name "server03"; } 
+ host server-3 {hardware ethernet a0:00:00:00:00:33; fixed-address 192.168.100.23; option host-name "server-3"; } 
 
- host server-2 {hardware ethernet a0:00:00:00:00:32; fixed-address 192.168.100.11; option host-name "server02"; } 
+ host server-2 {hardware ethernet a0:00:00:00:00:32; fixed-address 192.168.100.22; option host-name "server-2"; } 
 
- host server-4 {hardware ethernet a0:00:00:00:00:34; fixed-address 192.168.100.13; option host-name "server04"; } 
+ host server-4 {hardware ethernet a0:00:00:00:00:34; fixed-address 192.168.100.24; option host-name "server-4"; } 
 
+ host server-5 {hardware ethernet a0:00:00:00:00:35; fixed-address 192.168.100.25; option host-name "server-5"; }
+
+ host server-6 {hardware ethernet a0:00:00:00:00:36; fixed-address 192.168.100.26; option host-name "server-5"; }
 
 }#End of static host group
 EOT
@@ -194,14 +205,18 @@ cat << EOT > /etc/hosts
 192.168.100.3 edge-1
 192.168.100.2 spine-2
 192.168.100.1 spine-1
+192.168.100.10 leaf-6
+192.168.100.9 leaf-5
 192.168.100.8 leaf-4
 192.168.100.6 leaf-2
 192.168.100.7 leaf-3
 192.168.100.5 leaf-1
-192.168.100.10 server-1
-192.168.100.12 server-3
-192.168.100.11 server-2
-192.168.100.13 server-4
+192.168.100.21 server-1
+192.168.100.23 server-3
+192.168.100.22 server-2
+192.168.100.24 server-4
+192.168.100.25 server-5
+192.168.100.26 server-6
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
@@ -287,8 +302,8 @@ sed -i '/^server [1-3]/d' /etc/ntp.conf
 sed -i 's/^server 0.cumulusnetworks.pool.ntp.org iburst/server 192.168.0.200 iburst/g' /etc/ntp.conf
 
 # Configure NetQ
-netq add server 192.168.100.200
-netq agent restart
+netq config add server 192.168.100.200
+netq config agent restart
 
 ping 8.8.8.8 -c2
 if [ "\$?" == "0" ]; then
