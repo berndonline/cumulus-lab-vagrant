@@ -23,6 +23,7 @@ iface eth1 inet dhcp
     alias Interface used by Vagrant
     vrf vagrant
 
+source /etc/network/interfaces.d/*
 EOT
 
 echo " ###Creating SSH keys for cumulus user ###"
