@@ -32,8 +32,6 @@ graph vx {
  "leaf-5":"swp53" -- "leaf-6":"swp53"
  "leaf-5":"swp54" -- "leaf-6":"swp54"
 
- "spine-1":"swp53" -- "spine-2":"swp53"
- "spine-1":"swp54" -- "spine-2":"swp54"
  "edge-1":"swp53" -- "edge-2":"swp53"
  "edge-1":"swp54" -- "edge-2":"swp54"
 
