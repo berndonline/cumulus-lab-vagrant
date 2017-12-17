@@ -1,0 +1,16 @@
+auto eth1
+iface eth1
+  post-up ip link set $IFACE promisc on
+
+auto eth2
+iface eth2
+  post-up ip link set $IFACE promisc on
+
+auto bond0
+iface bond0
+    bond-slaves eth1 eth2
+
+auto bond0.103
+iface bond0.103
+    address 10.0.3.1/24
+    gateway 10.0.3.254

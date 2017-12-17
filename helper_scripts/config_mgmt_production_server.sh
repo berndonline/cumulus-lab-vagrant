@@ -11,12 +11,12 @@ cat <<EOT > /etc/network/interfaces
 auto lo
 iface lo inet loopback
 
-auto eth0
-iface eth0 inet dhcp
+auto eth1
+iface eth1 inet dhcp
     alias Connects (via NAT) To the Internet
 
-auto eth1
-iface eth1
+auto eth0
+iface eth0
     alias Faces the Internal Management Network
     address 192.168.100.200/24
 
@@ -184,7 +184,7 @@ group {
 
  host server-5 {hardware ethernet a0:00:00:00:00:35; fixed-address 192.168.100.25; option host-name "server-5"; }
 
- host server-6 {hardware ethernet a0:00:00:00:00:36; fixed-address 192.168.100.26; option host-name "server-5"; }
+ host server-6 {hardware ethernet a0:00:00:00:00:36; fixed-address 192.168.100.26; option host-name "server-6"; }
 
 }#End of static host group
 EOT
@@ -200,7 +200,7 @@ cat << EOT > /etc/hosts
 
 192.168.100.200 mgmt-server 
 
-192.168.100.9 mgmt-1
+192.168.100.30 mgmt-1
 192.168.100.4 edge-2
 192.168.100.3 edge-1
 192.168.100.2 spine-2

@@ -1,34 +1,36 @@
 #!/bin/bash
 
+#This file is transferred to a Debian/Ubuntu Host and executed to re-map interfaces
+#Extra config COULD be added here but I would recommend against that to keep this file standard.
 echo "#################################"
-echo "   Running config_mgmt_switch.sh"
+echo "  Running Server Post Config"
 echo "#################################"
 sudo su
 
-# Config for Mgmt Switch
+# Config for Vagrant Interface
 cat <<EOT > /etc/network/interfaces
 auto lo
 iface lo inet loopback
 
+auto mgmt
+iface mgmt
+    vrf-table auto
+
 auto eth0
-iface eth0
+iface eth0 inet dhcp
+    alias Interface used by oob management
+    vrf mgmt
 
 auto vagrant
 iface vagrant
     vrf-table auto
 
-auto eth1
-iface eth1 inet dhcp
+auto eth3
+iface eth3 inet dhcp
     alias Interface used by Vagrant
     vrf vagrant
 
-auto bridge
-iface bridge
-    alias Untagged Bridge
-    bridge-ports swp1 swp2 swp3 swp4 swp5 swp6 swp7 swp8 swp9 swp10 swp11 swp12 swp13 swp14 swp15 swp16 swp17 
-    hwaddress a0:00:00:00:00:61
-    address 192.168.100.30/24
-
+source /etc/network/interfaces.d/*
 EOT
 
 echo " ###Creating SSH keys for cumulus user ###"
@@ -45,12 +47,12 @@ chown cumulus:cumulus -R /home/cumulus/.ssh
 
 echo "cumulus ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/10_cumulus
 
+
 echo " ###Install NetQ agent ###"
 apt-get update
 apt-get install -y cumulus-netq
 
 
 echo "#################################"
-echo "   Finished "
+echo "   Finished"
 echo "#################################"
-
