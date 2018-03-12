@@ -2,7 +2,7 @@
 
 EXIT=0
 vagrant up mgmt-1 --color <<< 'mgmt-1 boot' || EXIT=$?
-vagrant up mgmt-server --color <<< 'netq-1 boot' || EXIT=$?
+vagrant up netq-1 --color <<< 'netq-1 boot' || EXIT=$?
 sleep 30
 vagrant up spine-1 --color <<< 'spine-1 boot' || EXIT=$?
 vagrant up spine-2 --color <<< 'spine-2 boot' || EXIT=$?
