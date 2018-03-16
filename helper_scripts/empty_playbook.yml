@@ -1,6 +1,6 @@
 ---
 - hosts: all
   user: vagrant
-  gather_facts: no
+  gather_facts: 'false'
   tasks:
     - command: "uname -a"
