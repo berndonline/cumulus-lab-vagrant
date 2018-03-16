@@ -6,7 +6,7 @@
   gather_facts: 'false'
   tasks:
     - name: write server interfaces configuration
-      copy: src=config_{{inventory_hostname}} 
+      copy: src=config_{{inventory_hostname}}
             dest=/etc/network/interfaces.d/interfaces_config
     - name: reload networking
       command: ifreload -a
