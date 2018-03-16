@@ -1,8 +1,8 @@
 # Created by Topology-Converter v4.6.3
 #    Template Revision: v4.6.3
 #    https://github.com/cumulusnetworks/topology_converter
-#    using topology data from: topology-production.dot
-#    built with the following args: topology_converter.py topology-production.dot -p libvirt --ansible-hostfile
+#    using topology data from: ./topology-production.dot
+#    built with the following args: ./topology_converter.py ./topology-production.dot -p libvirt --ansible-hostfile
 #
 #    NOTE: in order to use this Vagrantfile you will need:
 #       -Vagrant(v1.8.6+) installed: http://www.vagrantup.com/downloads
